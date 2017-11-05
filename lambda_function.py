@@ -70,8 +70,8 @@ def recognize_intent(event, context):
     #image = Image.open(BytesIO(response.read()))
     #image = np.asarray(bytearray(response.read()), dtype="uint8")
     #image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-    key_id = 'AKIAJTHNHB5NPICLCHKQ'
-    secret_key = '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'
+    key_id = 'ACCESS_KEY'
+    secret_key = 'SECRETE_KEY'
     client = boto3.client('rekognition', region_name='us-east-1', aws_access_key_id=key_id, aws_secret_access_key=secret_key)
     response = client.detect_labels(Image={'Bytes': resp.read()})
     return statement("", response)
