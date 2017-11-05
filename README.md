@@ -2,7 +2,7 @@
 Alexa-RasberryPie-Camera-AWS Rekognition API Integration
 
 ## Contributtors:
-Jerin Roy 
-Nikhil Nagori
-Sanket Patil
-Shreyas Vaidaynath
+*Jerin Roy 
+*Nikhil Nagori
+*Sanket Patil
+*Shreyas Vaidaynath
