@@ -3,7 +3,7 @@ import urllib
 import cv2
 import boto3
 import logging
-
+import json
 ##############################
 # Builders
 ##############################
@@ -66,15 +66,30 @@ def continue_dialog():
 
 def recognize_intent(event, context): 
     #Call Rasberry Pi for image Capture
-    resp = urllib.urlopen('https://cdd77821.ngrok.io/capture')
+    resp = urllib.urlopen('https://cf51fc88.ngrok.io/capture')
     #image = Image.open(BytesIO(response.read()))
     #image = np.asarray(bytearray(response.read()), dtype="uint8")
     #image = cv2.imdecode(image, cv2.IMREAD_COLOR)
     key_id = 'AKIAJTHNHB5NPICLCHKQ'
     secret_key = '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'
     client = boto3.client('rekognition', region_name='us-east-1', aws_access_key_id=key_id, aws_secret_access_key=secret_key)
-    response = client.detect_labels(Image={'Bytes': resp.read()})
-    return statement("", response)
+    res = client.detect_labels(Image={'Bytes': resp.read()})
+    obj = []
+    for i in res['Labels']:
+        obj.append(i)
+    for i in range(len(obj)):
+        obj[i]['Confidence'] = int(obj[i]['Confidence'])
+    max_val = obj[0]
+    recongnized_objects = []
+    for i in range(len(obj)):
+        if(max_val['Confidence'] == obj[i]['Confidence']):
+            recongnized_objects.append(obj[i])
+    name = ""
+    for i in range(len(recongnized_objects)):
+        name = name + " "+recongnized_objects[i]['Name'] + ", "
+    result = "The object could be "
+    result = result + name
+    return statement("", result)
 
 
 ##############################
